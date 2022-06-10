@@ -1,0 +1,26 @@
+clone : 원격 저장소를 지역 저장소로 복제
+
+push : 지역 저장소의 변경사항을 원격 저장소에 업데이트
+
+pull : 원격 저장소의 변경사항을 지역저장소에 업데이트
+
+Push 순서
+1.지역 저장소의 내용 변경
+2.Changes에 대한 요약과 내용을 달아 Commit 함
+3.해당 Commit에 문제가 없는지 확인하고 원격 저장소에 Push
+
+Pull 순서
+1.Pull request
+2.원격 저장소 내용을 지역 저장소에 Pull
+
+Discard : 내용 삭제
+Undo Commit : Commit 내용을 되돌리고 싶을 때
+Amend Commit : 가장 최근 Commit 내용에 노드를 새로 생성하지 않고 해당 노드에 덧붙여 쓰고 싶을 때
+Changes 탭에서 n changed file을 우클릭하면 전체 삭제(Discard)나 전체 보류(Stash)가 된다.
+
+Node : GitHub 업데이트 내용에 대한 최소 단위
+Branch : 노드들의 가지
+
+Origin : 현재 작업 중인 Branch의 원격 저장소에 저장된 내용
+
+Revert : 해당 Commit 내용을 되돌리고 History에 기록
