@@ -35,7 +35,7 @@ namespace FirstProject // Note: actual namespace depends on the project name.
 
     // class 키워드
     // 객체를 만들기 위한 타입을 정의하는 키워드
-    // 형식 : class 클래스이름
+    // 형식 : class 클래스 이름
     internal class Program
     {
         // static 키워드
@@ -43,6 +43,9 @@ namespace FirstProject // Note: actual namespace depends on the project name.
 
         // void 키워드
         // 아무것도 없음 (반환값이 없음)
+
+        // Main 함수
+        // 실행 파일(.exe)을 실행했을 때 가장 먼저 호출되는 함수
         
         static void Main(string[] args)
         {
