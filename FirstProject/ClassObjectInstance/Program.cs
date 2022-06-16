@@ -16,15 +16,27 @@ namespace ClassObjectInstance
             // Human : 클래스 타입
             // human1 : 객체
             Human human1 = new Human(); // new 키워드 : 동적할당하는 키워드
+            //객체화 : new Human(): 클래스로 객체를 생성하는 과정
+            //인스턴스화 : 객체에 실제 데이터를 초기화해서 사용하게 되는 과정
 
+            //언어를 다른 언어로 번역(변형)하는 과정을 컴파일(Compile)이라고 한다.
+            //RAM
+            //코드 영역   = 작성한 소스 코드가 컴파일되어 기계어로 번역된 코드
+            //데이터 영역 = 전역변수, 멤버변수
+            //힙 영역     = 동적으로 메모리를 할당하는 영역 (new 키워드 등)
+            //스택 영역   = 호출된 함수 및 그 함수 안의 지역 변수가 쌓임
 
+            Console.WriteLine(human1.height);
+            Console.WriteLine(Human.age);
+
+            // .연산자 : 멤버에 접근할 때 사용하는 연산자
         }
     }
 
     class Human
     {
         public static int age;
-        private float height;
+        public float height;
         double weight;
         bool isResting;
         char genderChar;
@@ -33,7 +45,7 @@ namespace ClassObjectInstance
         // 생성자
         public Human()
         {
-
+            height = 20f;
         }
     }
 }

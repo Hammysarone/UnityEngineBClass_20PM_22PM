@@ -9,7 +9,7 @@ namespace Variables
         static void Main(string[] args)
         {
             // 0000(28)... 1110
-            Human.age = 13; // = 2^3 + 2^2 + 2^1
+            Human.age = 13; // = 2^3 + 2^2 + 2^0
             Console.WriteLine(Human.age);
         }
     }
