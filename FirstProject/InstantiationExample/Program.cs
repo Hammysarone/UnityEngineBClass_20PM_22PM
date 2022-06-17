@@ -20,15 +20,32 @@ namespace InstantiationExample
             human1.PrintAge();
             Console.WriteLine(" ");
             human2.PrintAge();
+
+            Human.SayClassName();
         }
     }
 
     class Human
     {
+        // 접근 제한자
+        // private : 외부 클래스 / 객체에서 접근할 수 없도록 제한
+        // public : 외부 클래스 . 객체에서 접근할 수 있도록 제한해제
+        // internal : 동일 프로젝트에서 public 처럼 동작함
+        // protected : 자식만 접근 가능하도록 제한
+        //
+        // class의 멤버들은 접근 제한자를 명시하지 않으면 기본적으로 private
+        // 접근 제한자를 정확하게 명시해야 하는 이유
+        // 제3자가 봤을 때 접근하면 안되는 멤버에 접근하는 등의 사고로 인해
+        // 코드를 잘못 작성할 가능성을 없애기 위함
         public int age;
         public float height;
         public char genderChar;
-        string name;
+        public string name;
+
+        public static void SayClassName()
+        {
+            Console.WriteLine("Human");
+        }
 
         public void PrintAge()
         {
