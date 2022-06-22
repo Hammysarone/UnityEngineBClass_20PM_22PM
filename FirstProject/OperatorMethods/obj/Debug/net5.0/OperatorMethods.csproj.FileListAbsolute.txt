@@ -13,3 +13,4 @@ C:\Users\User\Documents\GitHub\UnityEngineBClass_20PM_22PM\FirstProject\Operator
 C:\Users\User\Documents\GitHub\UnityEngineBClass_20PM_22PM\FirstProject\OperatorMethods\obj\Debug\net5.0\ref\OperatorMethods.dll
 C:\Users\User\Documents\GitHub\UnityEngineBClass_20PM_22PM\FirstProject\OperatorMethods\obj\Debug\net5.0\OperatorMethods.pdb
 C:\Users\User\Documents\GitHub\UnityEngineBClass_20PM_22PM\FirstProject\OperatorMethods\obj\Debug\net5.0\OperatorMethods.genruntimeconfig.cache
+C:\Users\User\Documents\GitHub\UnityEngineBClass_20PM_22PM\FirstProject\OperatorMethods\obj\Debug\net5.0\OperatorMethods.csproj.AssemblyReference.cache
