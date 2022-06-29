@@ -10,6 +10,18 @@ namespace GenericCollections
     {
         static void Main(string[] args)
         {
+            // ArrayList
+            // ====================================================
+            // 박싱   : 자료형을 객체 타입으로 변환하는 과정
+            // 언박싱 : 객체 타입을 원래 자료형으로 변환하는 과정
+            // System.Collections를 더 이상 사용하지 않는 이유는
+            // 박싱은 기본형 단순 할당 과정보다 20배 정도 느리고
+            // 언박싱은 4배정도 느리기 때문에 Generic을 사용할 것을 권장하고 있다.
+            System.Collections.ArrayList arrListr = new System.Collections.ArrayList();
+            arrListr.Add(3);
+            arrListr.Add("철수");
+            arrListr.Add('A');
+
             // List
             // ====================================================
             List<int> list_int = new List<int>();
@@ -30,6 +42,11 @@ namespace GenericCollections
             //list_int.Find(x => x == 0);
             list_int.Contains(0);
 
+            for (int i = 0; i < list_int.Count; i++)
+            {
+                Console.WriteLine(list_int[i]);
+            }
+
             // LinkedList
             // ====================================================
             // 노드 형식
@@ -44,7 +61,7 @@ namespace GenericCollections
             linkedList.AddAfter(linkedList.Find(0), 1); // node 매개변수에 넣은 노드 뒤에 새로운 노드를 추가한다.
             linkedList.AddBefore(linkedList.First, 1);  // node 매개변수에 넣은 노드 앞에 새로운 노드를 추가한다.
 
-            // 탐색
+            // 검색
             linkedList.Find(1);     // 입력한 값을 첫번째 노드부터 찾으며 먼저 나온 노드를 반환
             linkedList.FindLast(1); // 입력한 값을 마지막 노드부터 찾으며 먼저 나온 노드를 반환
             linkedList.Contains(1); // 매개변수에 입력한 값이 있는지 찾고 있으면 true, 없으면 false 반환
@@ -55,7 +72,7 @@ namespace GenericCollections
             linkedList.RemoveFirst();            // 첫번째 노드 삭제
             linkedList.RemoveLast();             // 마지막 노드 삭제
 
-            // Dictionary
+            // HashTable
             // ====================================================
             // 중복되는 value 값은 넣을 수 없다
             // Hash : 고유 키 값
@@ -72,9 +89,74 @@ namespace GenericCollections
             // Linear Probing    : 충돌이 일어난 인덱스에 +1해서 value의 해시를 지정한다.
             // Quadratic Probing : 제곱 뭐시기
 
+            // 박싱 / 언박싱 때문에 사용하지 않음
+            System.Collections.Hashtable ht = new System.Collections.Hashtable();
+            ht.Add("철수", 90);
+
+            // Dictionary
+            // ====================================================
+            Dictionary<string, char> grades = new Dictionary<string, char>();
+            
+            // 추가
+            grades.Add("철수", 'A');
+            grades.Add("영희", 'B');
+            if (grades.TryAdd("영희", 'C'))
+            {
+                Console.WriteLine("영희 점수 C 추가");
+            }
+            else
+            {
+                Console.WriteLine($"영희 점수 이미 있음{grades["영희"]}");
+            }
+
+            // 삭제
+            grades.Remove("철수");
+
+            // 검색
+            if(grades.ContainsKey("영희"))
+            {
+                Console.WriteLine("영희 점수 있음");
+            }
+
+            if(grades.TryGetValue("영희", out char grade))
+            {
+                Console.WriteLine(grade);
+            }
+
+            foreach (var sub in grades)
+            {
+                Console.WriteLine(sub.Key);
+                Console.WriteLine(sub.Value);
+            }
+
+            foreach (var sub in grades.Keys)
+            {
+                Console.WriteLine(sub);
+                Console.WriteLine(grades[sub]);
+            }
+
             // Queue
+            // FIFO (First Input First Output) 선입선출
+            // 먼저 넣은 메모리가 먼저 나감
+            Queue<int> queue = new Queue<int>();
+            queue.Enqueue(1); // queue 제일 뒤에 아이템 추가
+            queue.Enqueue(2);
+            queue.Enqueue(3);
+            queue.Enqueue(4);
+            queue.Dequeue();  // queue 제일 앞에 있는 아이템 반환 및 제거
+            Console.WriteLine(queue.Dequeue());
+            queue.Peek();     // queue 제일 앞에 있는 아이템 반환
+            queue.TryPeek(out int peek);
 
             // Stack
+            // LIFO (Last Input First Output) 후입선출
+            // 나중에 넣은 메모리가 먼저 나감
+            Stack<int> stack = new Stack<int>();
+            stack.Push(0); // Stack 제일 뒤에 아이템 추가
+            stack.Push(1); 
+            stack.Pop();   // Stack 제일 뒤에 추가된 아이템 반환 및 제거
+            stack.Peek();  // Stack 제일 뒤에 추가된 아이템 반환
+            stack.TryPeek(out int result);
         }
     }
 }
