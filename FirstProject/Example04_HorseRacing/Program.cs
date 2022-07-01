@@ -89,7 +89,7 @@ namespace Example04_HorseRacing
         public void Run(int value)
         {
             ranDistance += value;
-            Console.WriteLine($"{name}이(가) {value}만큼 이동했습니다.");
+            Console.WriteLine($"{name}이(가) {value}만큼 이동했습니다. (현재 거리 : {ranDistance})");
         }
         public bool GetFinishState() { return isFinished; }
         public void GetRank() {Console.WriteLine($"{name}은(는) {rankNum}등 입니다!"); }
