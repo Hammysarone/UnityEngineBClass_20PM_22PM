@@ -111,3 +111,5 @@ namespace Structure
 // .NET 에서 프로그램을 실행하면 일어나는 과정
 // 소스 코드 컴파일 -> IL(Intermediate Language) -> 실행 파일 생성
 // 실행 파일 실행 시 -> IL -> JIT(Just In Time) 컴파일 -> 기계어
+
+//UML
