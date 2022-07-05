@@ -1,0 +1,16 @@
+C:\Users\User\Documents\GitHub\UnityEngineBClass_20PM_22PM\FirstProject\Deligate\bin\Debug\net5.0\Deligate.exe
+C:\Users\User\Documents\GitHub\UnityEngineBClass_20PM_22PM\FirstProject\Deligate\bin\Debug\net5.0\Deligate.deps.json
+C:\Users\User\Documents\GitHub\UnityEngineBClass_20PM_22PM\FirstProject\Deligate\bin\Debug\net5.0\Deligate.runtimeconfig.json
+C:\Users\User\Documents\GitHub\UnityEngineBClass_20PM_22PM\FirstProject\Deligate\bin\Debug\net5.0\Deligate.runtimeconfig.dev.json
+C:\Users\User\Documents\GitHub\UnityEngineBClass_20PM_22PM\FirstProject\Deligate\bin\Debug\net5.0\Deligate.dll
+C:\Users\User\Documents\GitHub\UnityEngineBClass_20PM_22PM\FirstProject\Deligate\bin\Debug\net5.0\ref\Deligate.dll
+C:\Users\User\Documents\GitHub\UnityEngineBClass_20PM_22PM\FirstProject\Deligate\bin\Debug\net5.0\Deligate.pdb
+C:\Users\User\Documents\GitHub\UnityEngineBClass_20PM_22PM\FirstProject\Deligate\obj\Debug\net5.0\Deligate.csproj.AssemblyReference.cache
+C:\Users\User\Documents\GitHub\UnityEngineBClass_20PM_22PM\FirstProject\Deligate\obj\Debug\net5.0\Deligate.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\Documents\GitHub\UnityEngineBClass_20PM_22PM\FirstProject\Deligate\obj\Debug\net5.0\Deligate.AssemblyInfoInputs.cache
+C:\Users\User\Documents\GitHub\UnityEngineBClass_20PM_22PM\FirstProject\Deligate\obj\Debug\net5.0\Deligate.AssemblyInfo.cs
+C:\Users\User\Documents\GitHub\UnityEngineBClass_20PM_22PM\FirstProject\Deligate\obj\Debug\net5.0\Deligate.csproj.CoreCompileInputs.cache
+C:\Users\User\Documents\GitHub\UnityEngineBClass_20PM_22PM\FirstProject\Deligate\obj\Debug\net5.0\Deligate.dll
+C:\Users\User\Documents\GitHub\UnityEngineBClass_20PM_22PM\FirstProject\Deligate\obj\Debug\net5.0\ref\Deligate.dll
+C:\Users\User\Documents\GitHub\UnityEngineBClass_20PM_22PM\FirstProject\Deligate\obj\Debug\net5.0\Deligate.pdb
+C:\Users\User\Documents\GitHub\UnityEngineBClass_20PM_22PM\FirstProject\Deligate\obj\Debug\net5.0\Deligate.genruntimeconfig.cache

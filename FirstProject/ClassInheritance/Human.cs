@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace ClassInheritance
 {
+    // 클래스는 단일 상속만 가능
+    // 인터페이스는 다중 상속이 가능
     internal class Human : Creature, ITwoLeggedWalker, IFourLeggedWalker
     {
         public float height;
