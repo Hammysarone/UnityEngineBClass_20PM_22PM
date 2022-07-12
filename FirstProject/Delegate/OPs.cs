@@ -16,11 +16,6 @@ namespace Delegate
             DIV,
             MOD
         }
-        
-        public static void Test()
-        {
-
-        }
 
         public static bool RefreshOP(OP op, ref Program.MyDelegate opDel)
         {

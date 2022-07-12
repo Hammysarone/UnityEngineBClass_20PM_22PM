@@ -8,6 +8,11 @@ namespace ClassInheritance
 {
     internal class Dog : Creature, IFourLeggedWalker
     {
+        public override void Breath()
+        {
+            throw new NotImplementedException();
+        }
+
         public void FourLeggedWalk()
         {
             throw new NotImplementedException();
