@@ -24,7 +24,7 @@ namespace Example05_DiceGame
 
             // 클래스 a와 b가 있고 b가 a를 상속받는 클래스이며 List를 a 클래스 타입으로 만들었고 b 클래스를 추가함
             // 이 때 a 클래스 타입으로 만든 List를 통해 b 클래스의 멤버 변수, 함수를 접근하고 싶으면 "(리스트이름 as b클래스이름)"을 사용해도 되고
-            // (b클래스이름)리스트이름을 사용해서 접근할 수 있다.
+            // (b클래스이름)리스트이름을 사용해서 접근할 수 있다.(캐스팅)
 
             CreateTiles(totalTileCount, tiles);
             currentDiceCount = totalDiceCount;
