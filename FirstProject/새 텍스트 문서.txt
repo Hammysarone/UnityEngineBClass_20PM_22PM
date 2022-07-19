@@ -1,4 +1,4 @@
 ctrl + shift = 면 스냅핑
-v = 버텍스 스냅핑(꼭짓점)
+v = 버텍스 스냅핑(꼭짓점 스냅핑)
 
-order of execution
+order of execution of event function
