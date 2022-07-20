@@ -1,0 +1,6 @@
+ctrl + shift = 면 스냅핑
+v = 버텍스 스냅핑(꼭짓점 스냅핑)
+
+order of execution of event function
+
+Project Settings -> Editor -> Numbering Scheme에서 넘버링 방식을 바꿀 수 있다
