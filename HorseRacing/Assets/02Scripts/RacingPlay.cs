@@ -1,3 +1,5 @@
+// using 키워드 : namespace를 사용할 수 있도록 선언하는 키워드
+// using을 함수 내에 사용하는 경우 Dispose()의 호출을 보증하는 구문으로 사용할 수 있다.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
