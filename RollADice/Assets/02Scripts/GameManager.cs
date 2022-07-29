@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     }
     [SerializeField] private Text _starScoreText;
     private int _diceNum;
-    private int diceNum
+    public int diceNum
     {
         get
         {
@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
     }
     [SerializeField] private Text _diceNumText;
     private int _goldenDiceNum;
-    private int goldenDiceNum
+    public int goldenDiceNum
     {
         get
         {
@@ -51,6 +51,30 @@ public class GameManager : MonoBehaviour
         }
     }
     [SerializeField] private Text _goldenDiceNumText;
+
+    // direction 1 : positive, -1 : negative
+    private int _direction;
+    public int direction
+    {
+        get
+        {
+            return _direction;
+        }
+        set
+        {
+            if (value < 0)
+            {
+                _direction = -1;
+                _inverseIcon.SetActive(true);
+            }
+            else
+            {
+                _direction = 1;
+                _inverseIcon.SetActive(false);
+            }
+        }
+    }
+    [SerializeField] private GameObject _inverseIcon;
     private int _tilesCount;
     private int _current;
 
@@ -59,6 +83,7 @@ public class GameManager : MonoBehaviour
         instance = this;
         diceNum = Constants.DICE_NUM_INIT;
         goldenDiceNum = Constants.GOLDEN_DICE_NUM_INIT;
+        direction = Constants.DIRECTION_POSITIVE;
         _tilesCount = _tiles.Count;
         _tiles.Sort();
         //_tiles.OrderBy(x => x.index);
@@ -81,23 +106,49 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        DiceAnimationUI.instance.RegisterCallBack(MovePlayer);
+    }
+
     public void RollADice()
     {
-        if(diceNum > 0)
+        if(diceNum > 0
+            && DiceAnimationUI.instance.isPlaying == false)
         {
             diceNum--;
             int randomValue = Random.Range(1, 7);
-            MovePlayer(randomValue);
-            DiceAnimationUI.instance.DoDiceAnimation();
+            DiceAnimationUI.instance.DoDiceAnimation(randomValue);
+        }
+    }
+
+    public void RollAGoldenDice(int diceValue)
+    {
+        if(goldenDiceNum > 0 &&
+            DiceAnimationUI.instance.isPlaying == false)
+        {
+            goldenDiceNum--;
+            DiceAnimationUI.instance.DoDiceAnimation(diceValue);
         }
     }
 
     private void MovePlayer(int diceValue)
     {
-        CalcPassedStarTiles(_current, diceValue);
-        _current += diceValue;
-        if (_current >= _tilesCount)
-            _current -= _tilesCount;
+        if(_direction > 0)
+        {
+            CalcPassedStarTiles(_current, diceValue);
+            _current += diceValue;
+            if (_current >= _tilesCount)
+                _current -= _tilesCount;
+        }
+        else
+        {
+            _current -= diceValue;
+            if (_current < 0)
+                _current += _tilesCount;
+            direction = Constants.DIRECTION_POSITIVE;
+        }
+
 
         Player.instance.MoveTo(_tiles[_current].transform);
         _tiles[_current].OnTile();
