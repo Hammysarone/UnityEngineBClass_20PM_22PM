@@ -28,7 +28,7 @@ public class SongSelector : MonoBehaviour
         {
             clip = Resources.Load<VideoClip>($"VideoClips/{clipName}");
             TextAsset songDataText = Resources.Load<TextAsset>($"SongsData/{clipName}");
-            JsonUtility.FromJson<SongData>(songDataText.ToString());
+            songData = JsonUtility.FromJson<SongData>(songDataText.ToString());
         }
         catch
         {
