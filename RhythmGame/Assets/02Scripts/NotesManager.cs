@@ -50,7 +50,6 @@ public class NotesManager : MonoBehaviour
                     break;
                 }
             }
-
             yield return null;
         }
     }

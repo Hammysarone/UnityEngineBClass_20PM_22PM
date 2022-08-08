@@ -20,6 +20,6 @@ public class Note : MonoBehaviour
 
     private void Move()
     {
-        _tr.Translate(Vector2.down * speed * Time.fixedTime);
+        _tr.Translate(Vector2.down * speed * Time.fixedDeltaTime);
     }
 }
