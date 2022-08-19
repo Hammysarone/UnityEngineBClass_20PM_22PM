@@ -53,3 +53,6 @@ TagManager:
   - name: EnemyUI
     uniqueID: 2248509607
     locked: 0
+  - name: DamagePopUp
+    uniqueID: 189814787
+    locked: 0

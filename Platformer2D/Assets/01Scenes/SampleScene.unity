@@ -194,7 +194,7 @@ SpriteRenderer:
   m_SortingLayerID: -993845547
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: -3318188226485093758, guid: ae72133dacba6ec4eb33ecde48f50e56, type: 3}
+  m_Sprite: {fileID: 8207571220096118977, guid: ae72133dacba6ec4eb33ecde48f50e56, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -265,6 +265,8 @@ MonoBehaviour:
   _dashState: 0
   _crouchState: 0
   _downJumpState: 0
+  _hurtState: 0
+  _dieState: 0
   _moveSpeed: 1
   _jumpForce: 2
   _slideSpeed: 1.5
@@ -1761,7 +1763,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

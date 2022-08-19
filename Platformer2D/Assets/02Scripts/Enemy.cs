@@ -29,10 +29,12 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private LayerMask _targetLayer;
     private EnemyController _controller;
+    private CapsuleCollider2D _col;
 
     public void Hurt(int damage)
     {
         hp -= damage;
+        DamagePopUp.Create(transform.position + Vector3.up * _col.size.y * 0.7f, damage, gameObject.layer);
         if (hp > 0)
             _controller.TryHurt();
         else
@@ -42,6 +44,7 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         _controller = GetComponent<EnemyController>();
+        _col = GetComponent<CapsuleCollider2D>();
         hp = _hpMax;
     }
 

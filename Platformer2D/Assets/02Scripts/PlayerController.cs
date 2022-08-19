@@ -14,7 +14,9 @@ public class PlayerController : MonoBehaviour
         Dash,
         Slide,
         Crouch,
-        DownJump
+        DownJump,
+        Hurt,
+        Die
     }
 
     private enum IdleState
@@ -98,6 +100,24 @@ public class PlayerController : MonoBehaviour
         Finish
     }
 
+    private enum HurtState
+    {
+        Idle,
+        Prepare,
+        Casting,
+        OnAction,
+        Finish
+    }
+
+    private enum DieState
+    {
+        Idle,
+        Prepare,
+        Casting,
+        OnAction,
+        Finish
+    }
+
     public State state;
     [SerializeField] private MoveState     _moveState;
     [SerializeField] private IdleState     _idleState;
@@ -108,6 +128,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private DashState     _dashState;
     [SerializeField] private CrouchState   _crouchState;
     [SerializeField] private DownJumpState _downJumpState;
+    [SerializeField] private HurtState     _hurtState;
+    [SerializeField] private DieState      _dieState;
 
     private Vector2 _move;
     [SerializeField] private float _moveSpeed     = 1.0f;
@@ -157,12 +179,13 @@ public class PlayerController : MonoBehaviour
 
     public void TryHurt()
     {
-        // todo -> ChangeState to hurt
+        if(state != State.Attack)
+            ChangeState(State.Hurt);
     }
 
     public void TryDie()
     {
-        // todo -> ChangeState to die
+        ChangeState(State.Die);
     }
 
     public void KnockBack()
@@ -176,6 +199,7 @@ public class PlayerController : MonoBehaviour
     private float _slideAnimationTime;
     private float _attackAnimationTime;
     private float _dashAnimationTime;
+    private float _hurtAnimationTime;
     private float _animationTimer;
 
     private float h { get => Input.GetAxisRaw("Horizontal"); }
@@ -194,6 +218,7 @@ public class PlayerController : MonoBehaviour
         _slideAnimationTime = GetAnimationTime("Slide");
         _attackAnimationTime = GetAnimationTime("Attack");
         _dashAnimationTime = GetAnimationTime("Dash");
+        _hurtAnimationTime = GetAnimationTime("Hurt");
     }
 
     private void Update()
@@ -206,14 +231,17 @@ public class PlayerController : MonoBehaviour
                 direction = 1;
         }
 
-
-        if (_isMovable)
+        if(state != State.Hurt &&
+           state != State.Die)
         {
-            _move.x = h;
-            if (Mathf.Abs(_move.x) > 0.0f)
-                ChangeState(State.Move);
-            else
-                ChangeState(State.Idle);
+            if (_isMovable)
+            {
+                _move.x = h;
+                if (Mathf.Abs(_move.x) > 0.0f)
+                    ChangeState(State.Move);
+                else
+                    ChangeState(State.Idle);
+            }
         }
 
         // มกวม
@@ -308,6 +336,12 @@ public class PlayerController : MonoBehaviour
             case State.DownJump:
                 UpdateDownJumpState();
                 break;
+            case State.Hurt:
+                UpdateHurtState();
+                break;
+            case State.Die:
+                UpdateDieState();
+                break;
             default:
                 break;
         }
@@ -352,6 +386,12 @@ public class PlayerController : MonoBehaviour
             case State.DownJump:
                 _downJumpState = DownJumpState.Idle;
                 break;
+            case State.Hurt:
+                _hurtState = HurtState.Idle;
+                break;
+            case State.Die:
+                _dieState = DieState.Idle;
+                break;
             default:
                 break;
         }
@@ -389,6 +429,12 @@ public class PlayerController : MonoBehaviour
                 break;
             case State.DownJump:
                 _downJumpState = DownJumpState.Prepare;
+                break;
+            case State.Hurt:
+                _hurtState = HurtState.Prepare;
+                break;
+            case State.Die:
+                _dieState = DieState.Prepare;
                 break;
             default:
                 break;
@@ -688,6 +734,62 @@ public class PlayerController : MonoBehaviour
                 }
                 break;
             case DownJumpState.Finish:
+                break;
+            default:
+                break;
+        }
+    }
+
+    void UpdateHurtState()
+    {
+        switch (_hurtState)
+        {
+            case HurtState.Idle:
+                break;
+            case HurtState.Prepare:
+                _isMovable = false;
+                _isDirectionChangable = false;
+                _animator.Play("Hurt");
+                _animationTimer = _hurtAnimationTime;
+                _hurtState = HurtState.OnAction;
+                break;
+            case HurtState.Casting:
+                break;
+            case HurtState.OnAction:
+                if(_animationTimer < 0.0f)
+                {
+                    ChangeState(State.Idle);
+                }
+                else
+                {
+                    _animationTimer -= Time.deltaTime;
+                }
+                break;
+            case HurtState.Finish:
+                break;
+            default:
+                break;
+        }
+    }
+
+    void UpdateDieState()
+    {
+        switch (_dieState)
+        {
+            case DieState.Idle:
+                break;
+            case DieState.Prepare:
+                _isMovable = false;
+                _isDirectionChangable = false;
+                _animator.Play("Die");
+                _dieState = DieState.OnAction;
+                break;
+            case DieState.Casting:
+                break;
+            case DieState.OnAction:
+                // nothing to do
+                break;
+            case DieState.Finish:
                 break;
             default:
                 break;
