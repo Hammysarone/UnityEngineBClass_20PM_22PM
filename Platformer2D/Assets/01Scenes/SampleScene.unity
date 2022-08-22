@@ -268,7 +268,7 @@ MonoBehaviour:
   _hurtState: 0
   _dieState: 0
   _moveSpeed: 1
-  _jumpForce: 2
+  _jumpForce: 3
   _slideSpeed: 1.5
   _dashSpeed: 2
   _downJumpForce: 1
