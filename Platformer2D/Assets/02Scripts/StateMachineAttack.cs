@@ -2,21 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StateMachineFall : StateMachineBase
+public class StateMachineAttack : StateMachineBase
 {
-    private GroundDetecter _groundDetecter;
-    public StateMachineFall(StateMachineManager.State machineState, 
-                            StateMachineManager manager, 
-                            AnimationManager animationManager) 
+    private float _animationTime;
+    private float _animationTimer;
+
+    public StateMachineAttack(StateMachineManager.State machineState, 
+                              StateMachineManager manager, 
+                              AnimationManager animationManager) 
         : base(machineState, manager, animationManager)
     {
-        _groundDetecter = manager.GetComponent<GroundDetecter>();
+        shortKey = KeyCode.X;
+        _animationTime = animationManager.GetAnimationTime("Attack");
     }
 
     public override void Execute()
     {
         manager.isMovable = false;
-        manager.isDirectionChangable = true;
+        manager.isDirectionChangable = false;
         state = State.Prepare;
     }
 
@@ -33,11 +36,10 @@ public class StateMachineFall : StateMachineBase
     public override bool IsExecuteOK()
     {
         bool isOK = false;
-        if(_groundDetecter.isDetected == false &&
-           manager.state == StateMachineManager.State.Idle ||
-           manager.state == StateMachineManager.State.Move ||
-           manager.state == StateMachineManager.State.Jump ||
-           manager.state == StateMachineManager.State.DownJump)
+        if (manager.state == StateMachineManager.State.Idle ||
+            manager.state == StateMachineManager.State.Move ||
+            manager.state == StateMachineManager.State.Jump ||
+            manager.state == StateMachineManager.State.Fall)
             isOK = true;
         return isOK;
     }
@@ -45,21 +47,25 @@ public class StateMachineFall : StateMachineBase
     public override StateMachineManager.State UpdateState()
     {
         StateMachineManager.State nextState = managerState;
+
         switch (state)
         {
             case State.Idle:
                 break;
             case State.Prepare:
-                animationManager.Play("Fall");
+                manager.ResetVelocity();
+                animationManager.Play("Attack");
+                _animationTimer = _animationTime;
                 state = State.OnAction;
                 break;
             case State.Casting:
                 break;
             case State.OnAction:
-                if(_groundDetecter.isDetected)
+                if(_animationTimer < 0.0f)
                 {
-                    state++;
+                    state = State.Finish;
                 }
+                _animationTimer -= Time.deltaTime;
                 break;
             case State.Finish:
                 nextState = StateMachineManager.State.Idle;
@@ -71,6 +77,7 @@ public class StateMachineFall : StateMachineBase
             default:
                 break;
         }
+
         return nextState;
     }
 }

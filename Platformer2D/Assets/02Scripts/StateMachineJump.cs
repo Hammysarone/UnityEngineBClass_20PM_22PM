@@ -12,6 +12,7 @@ public class StateMachineJump : StateMachineBase
                             AnimationManager animationManager) 
         : base(machineState, manager, animationManager)
     {
+        shortKey = KeyCode.Z;
         _groundDetecter = manager.GetComponent<GroundDetecter>();
         _rb = manager.GetComponent<Rigidbody2D>();
     }
@@ -47,7 +48,7 @@ public class StateMachineJump : StateMachineBase
 
     public override StateMachineManager.State UpdateState()
     {
-        StateMachineManager.State nextState = machineState;
+        StateMachineManager.State nextState = managerState;
         switch (state)
         {
             case State.Idle:
@@ -67,10 +68,11 @@ public class StateMachineJump : StateMachineBase
             case State.OnAction:
                 if(_rb.velocity.y < 0.0f)
                 {
-                    nextState = StateMachineManager.State.Idle;
+                    state++;
                 }
                 break;
             case State.Finish:
+                nextState = StateMachineManager.State.Fall;
                 break;
             case State.Error:
                 break;

@@ -231,7 +231,7 @@ public class PlayerController : MonoBehaviour
                 direction = 1;
         }
 
-        if(state != State.Hurt &&
+        if (state != State.Hurt &&
            state != State.Die)
         {
             if (_isMovable)

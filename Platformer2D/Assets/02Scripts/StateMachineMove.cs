@@ -29,15 +29,12 @@ public class StateMachineMove : StateMachineBase
 
     public override bool IsExecuteOK()
     {
-        bool isOK = false;
-        if(manager.isMovable)
-            isOK = true;
-        return isOK;
+        return true;
     }
 
     public override StateMachineManager.State UpdateState()
     {
-        StateMachineManager.State nextState = machineState;
+        StateMachineManager.State nextState = managerState;
         switch (state)
         {
             case State.Idle:
@@ -59,6 +56,6 @@ public class StateMachineMove : StateMachineBase
             default:
                 break;
         }
-        return machineState;
+        return managerState;
     }
 }
