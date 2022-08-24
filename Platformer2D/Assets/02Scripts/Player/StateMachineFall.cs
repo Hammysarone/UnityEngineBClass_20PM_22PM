@@ -2,19 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StateMachineJump : StateMachineBase
+public class StateMachineFall : StateMachineBase
 {
     private GroundDetecter _groundDetecter;
-    private Rigidbody2D _rb;
-    private float _jumpForce = 3.0f;
-    public StateMachineJump(StateMachineManager.State machineState,
+    public StateMachineFall(StateMachineManager.State machineState, 
                             StateMachineManager manager, 
                             AnimationManager animationManager) 
         : base(machineState, manager, animationManager)
     {
-        shortKey = KeyCode.Z;
         _groundDetecter = manager.GetComponent<GroundDetecter>();
-        _rb = manager.GetComponent<Rigidbody2D>();
     }
 
     public override void Execute()
@@ -37,11 +33,10 @@ public class StateMachineJump : StateMachineBase
     public override bool IsExecuteOK()
     {
         bool isOK = false;
-        if (_groundDetecter.isDetected &&
-            manager.state != StateMachineManager.State.Jump     &&
-            manager.state != StateMachineManager.State.Fall     &&
-            manager.state != StateMachineManager.State.DownJump &&
-            manager.state != StateMachineManager.State.Crouch)
+        if(_groundDetecter.isDetected == false &&
+           manager.state == StateMachineManager.State.Idle ||
+           manager.state == StateMachineManager.State.Move ||
+           manager.state == StateMachineManager.State.Jump)
             isOK = true;
         return isOK;
     }
@@ -54,25 +49,19 @@ public class StateMachineJump : StateMachineBase
             case State.Idle:
                 break;
             case State.Prepare:
-                animationManager.Play("Jump");
-                _rb.velocity = new Vector2(_rb.velocity.x, 0.0f);
-                _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
-                state++;
+                animationManager.Play("Fall");
+                state = State.OnAction;
                 break;
             case State.Casting:
-                if(_groundDetecter.isDetected == false)
-                {
-                    state++;
-                }
                 break;
             case State.OnAction:
-                if(_rb.velocity.y < 0.0f)
+                if(_groundDetecter.isDetected)
                 {
                     state++;
                 }
                 break;
             case State.Finish:
-                nextState = StateMachineManager.State.Fall;
+                nextState = StateMachineManager.State.Idle;
                 break;
             case State.Error:
                 break;
@@ -81,7 +70,6 @@ public class StateMachineJump : StateMachineBase
             default:
                 break;
         }
-
         return nextState;
     }
 }

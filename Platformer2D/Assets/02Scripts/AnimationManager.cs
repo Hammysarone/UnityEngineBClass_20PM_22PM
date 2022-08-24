@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AnimationManager : MonoBehaviour
 {
+    public bool isReady { get => animator != null; }
     public Animator animator { get; private set; }
     
     public void Play(string clipName) => animator.Play(clipName);
@@ -19,7 +20,7 @@ public class AnimationManager : MonoBehaviour
             }
         }
 
-        Debug.Log($"{clipName}을 찾지 못함");
+        Debug.LogWarning($"{clipName}을 찾지 못함");
         return -1.0f;
     }
 

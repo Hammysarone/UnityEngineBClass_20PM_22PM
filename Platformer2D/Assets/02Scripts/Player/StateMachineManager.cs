@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class StateMachineManager : MonoBehaviour
 {
+    public bool isReady;
+
     public enum State
     {
         Idle,
@@ -16,7 +18,6 @@ public class StateMachineManager : MonoBehaviour
         Dash,
         Slide,
         Crouch,
-        DownJump,
         Hurt,
         Die
     }
@@ -93,19 +94,22 @@ public class StateMachineManager : MonoBehaviour
 
     private void Awake()
     {
+        StartCoroutine(E_Init());
+    }
+
+    IEnumerator E_Init()
+    {
+        direction = _directionInit;
         _animationManager = GetComponent<AnimationManager>();
         _rb = GetComponent<Rigidbody2D>();
         _player = GetComponent<Player>();
-        //_machines.Add(State.Idle, new StateMachineIdle(State.Idle, this, _animationManager));
-        //_machines.Add(State.Move, new StateMachineMove(State.Move, this, _animationManager));
-        //_machines.Add(State.Jump, new StateMachineJump(State.Jump, this, _animationManager));
-        //_states.Add(KeyCode.Z, State.Jump);
-        //_machines.Add(State.Fall, new StateMachineFall(State.Fall, this, _animationManager));
-        //_machines.Add(State.Attack, new StateMachineAttack(State.Attack, this, _animationManager));
-        //_states.Add(KeyCode.X, State.Attack);
+        yield return new WaitUntil(() => _animationManager.isReady);
+
         InitStateMachines();
         _current = _machines[State.Idle];
         _current.Execute();
+
+        isReady = true;
     }
 
     private void InitStateMachines()
@@ -124,7 +128,7 @@ public class StateMachineManager : MonoBehaviour
 
         string typeName = "StateMachine" + state.ToString();
         Type type = Type.GetType(typeName);
-        if (type == null)
+        if (type != null)
         {
             ConstructorInfo constructorInfo =
                 type.GetConstructor(new Type[]
@@ -156,6 +160,9 @@ public class StateMachineManager : MonoBehaviour
 
     private void Update()
     {
+        if (isReady == false)
+            return;
+
         if (isDirectionChangable)
         {
             if (h < 0.0f)
@@ -186,8 +193,11 @@ public class StateMachineManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        transform.position += new Vector3(_move.x * _moveSpeed, _move.y, 0.0f) * Time.fixedDeltaTime;
+        if (isReady == false)
+            return;
+
         _current.FixedUpdateState();
+        transform.position += new Vector3(_move.x * _moveSpeed, _move.y, 0.0f) * Time.fixedDeltaTime;
     }
 
     private void AttackHit()
