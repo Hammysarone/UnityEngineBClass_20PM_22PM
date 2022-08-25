@@ -63,6 +63,7 @@ public class StateMachineManager : MonoBehaviour
     [SerializeField] private Vector2 _attackHitCastCenter = new Vector2(0.36f, 0.26f);
     [SerializeField] private Vector2 _attackHitCastSize = new Vector2(0.5f, 0.5f);
     [SerializeField] private LayerMask _attackTargetLayer;
+    [SerializeField] private Vector2 _knockBackForce;
 
     private float h => Input.GetAxisRaw("Horizontal");
     private float v => Input.GetAxisRaw("Vertical");
@@ -74,6 +75,12 @@ public class StateMachineManager : MonoBehaviour
     {
         _move.x = 0.0f;
         _rb.velocity = Vector2.zero;
+    }
+
+    public void KnockBack()
+    {
+        _rb.velocity = Vector2.zero;
+        _rb.AddForce(new Vector2(-_direction * _knockBackForce.x, _knockBackForce.y), ForceMode2D.Impulse);
     }
 
     public void ChangeState(State newState)

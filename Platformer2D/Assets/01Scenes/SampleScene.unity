@@ -1164,6 +1164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e612ec714a7cf7c4eafcdcb00f682d34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isReady: 0
   state: 0
   _directionInit: 1
   _moveSpeed: 2
@@ -1172,6 +1173,7 @@ MonoBehaviour:
   _attackTargetLayer:
     serializedVersion: 2
     m_Bits: 1048576
+  _knockBackForce: {x: 1, y: 1.5}
 --- !u!4 &889760502
 Transform:
   m_ObjectHideFlags: 0

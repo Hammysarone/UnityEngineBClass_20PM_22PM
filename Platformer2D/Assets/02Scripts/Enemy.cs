@@ -60,7 +60,7 @@ public class Enemy : MonoBehaviour
                     if(player.invincible == false)
                     {
                         player.Hurt(damage);
-                        go.GetComponent<PlayerController>().KnockBack();
+                        go.GetComponent<StateMachineManager>().KnockBack();
                     }
                 }
             }
