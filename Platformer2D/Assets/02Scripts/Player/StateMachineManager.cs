@@ -18,6 +18,7 @@ public class StateMachineManager : MonoBehaviour
         Dash,
         Slide,
         Crouch,
+        EdgeGrab,
         Hurt,
         Die
     }
@@ -195,6 +196,12 @@ public class StateMachineManager : MonoBehaviour
                 return;
             }
         }
+
+        if(Input.GetKey(KeyCode.UpArrow))
+        {
+            ChangeState(State.EdgeGrab);
+        }
+
         ChangeState(_current.UpdateState());
     }
 

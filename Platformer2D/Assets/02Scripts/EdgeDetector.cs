@@ -4,31 +4,62 @@ using UnityEngine;
 
 public class EdgeDetector : MonoBehaviour
 {
-    public float topX, topY, bottomX, bottomY;
+    public bool isDetected
+    {
+        get => detectingRisingEdge || detectingFallingEdge;
+    }
+
+    public Vector2 climbPos
+    {
+        get => grabPos + new Vector2(_col.size.x * 0.5f * _col.gameObject.transform.lossyScale.x * _machineManager.direction, 0.0f);
+    }
+
+    public Vector2 grabPos
+    {
+        get => new Vector2(_rb.position.x + (_col.size.x * 0.5f * _col.gameObject.transform.lossyScale.x + 0.025f) * _machineManager.direction,
+                           _rb.position.y + _col.size.y * _col.gameObject.transform.lossyScale.y);
+    }
+
+    //public float topX, topY, bottomX, bottomY;
+    public float topX => _rb.position.x + (_col.size.x * 0.5f * _col.gameObject.transform.lossyScale.x + 0.025f) * _machineManager.direction;
+    public float topY => _rb.position.y + _col.size.y * _col.gameObject.transform.lossyScale.y + 0.025f;
+    public float bottomX => _rb.position.x + (_col.size.x * 0.5f * _col.gameObject.transform.lossyScale.x + 0.025f) * _machineManager.direction;
+    public float bottomY => _rb.position.y + _col.size.y * _col.gameObject.transform.lossyScale.y - 0.025f;
+
     public bool topOn, bottomOn;
     private bool detectingFallingEdge;
     private bool detectingRisingEdge;
     private StateMachineManager _machineManager;
     private Rigidbody2D _rb;
+    private CapsuleCollider2D _col;
     [SerializeField] private LayerMask _groundLayer;
 
     private void Awake()
     {
         _machineManager = GetComponent<StateMachineManager>();
         _rb = GetComponent<Rigidbody2D>();
+        _col = GetComponent<CapsuleCollider2D>();
     }
 
     private void Update()
     {
-        topOn = Physics2D.OverlapCircle(new Vector2(transform.position.x + topX * _machineManager.direction,
-                                            transform.position.y + topY),
-                                            0.01f,
-                                            _groundLayer);
+        topOn = Physics2D.OverlapCircle(new Vector2(topX,
+                                                    topY),
+                                                    0.015f,
+                                                    _groundLayer);
 
-        bottomOn = Physics2D.OverlapCircle(new Vector2(transform.position.x + bottomX * _machineManager.direction,
-                                                       transform.position.y + bottomY),
-                                                       0.01f,
+        bottomOn = Physics2D.OverlapCircle(new Vector2(bottomX,
+                                                       bottomY),
+                                                       0.015f,
                                                        _groundLayer);
+
+        //if(detectingRisingEdge &&
+        //    topOn)
+        //{
+        //    isDetected = true;
+        //}
+
+
 
         // ¶³¾îÁú ¶§ »ó½Â¿§Áö
         if(bottomOn && 
@@ -36,21 +67,33 @@ public class EdgeDetector : MonoBehaviour
            _rb.velocity.y < 0.0f)
         {
             detectingRisingEdge = true;
+            Debug.Log("°ËÃâµÊ");
         }
         else
         {
             detectingRisingEdge = false;
         }
         // ¿Ã¶ó°¥ ¶§ ÇÏ°­¿§Áö
-        if(bottomOn == false &&
-           topOn &&
-           _rb.velocity.y > 0.0f)
-        {
-            detectingFallingEdge = true;
-        }
-        else
-        {
-            detectingFallingEdge = false;
-        }
+        //if(bottomOn == false &&
+        //   topOn &&
+        //   _rb.velocity.y > 0.0f)
+        //{
+        //    detectingFallingEdge = true;
+        //}
+        //else
+        //{
+        //    detectingFallingEdge = false;
+        //}
+
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (_rb == null) return;
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(new Vector3(topX, topY, 0.0f), 0.015f);
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(new Vector3(bottomX, bottomY, 0.0f), 0.015f);
     }
 }

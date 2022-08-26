@@ -65,7 +65,7 @@ public class GroundDetecter : MonoBehaviour
         // 플레이어가 타겟 그라운드를 지나가는지 체크
         yield return new WaitUntil(() =>
         {
-            return _col.transform.position.y < targetColCenter * targetCol.transform.lossyScale.y;
+            return _col.transform.position.y < targetColCenter;
         });
 
         yield return new WaitUntil(() => 
@@ -73,7 +73,7 @@ public class GroundDetecter : MonoBehaviour
             bool isPassed = false;
             if(targetCol != null)
             {
-                float targetColCenter = targetCol.transform.position.y + targetCol.offset.y;
+                float targetColCenter = targetCol.transform.position.y + targetCol.offset.y * targetCol.transform.lossyScale.y;
 
                 // 올라가면서 통과, 내려가면서 통과 체크
                 if(_col.transform.position.y > targetColCenter + _size.y || 
@@ -102,15 +102,30 @@ public class GroundDetecter : MonoBehaviour
 
         float targetColCenter = tmpCol.transform.position.y + tmpCol.offset.y;
         Gizmos.color = Color.black;
-        Gizmos.DrawSphere(new Vector3(transform.position.x,
-                                      targetColCenter + _size.y - _col.transform.position.y,
-                                      0.0f),
-                          0.02f);
-        Gizmos.DrawSphere(new Vector3(transform.position.x,
-                                      targetColCenter - _size.y - _col.transform.position.y,
-                                      0.0f),
-                          0.02f);
+        Gizmos.DrawLine(new Vector3(_col.transform.position.x + _col.offset.x - _col.size.x,
+                                    _col.transform.position.y + _col.offset.y + _col.size.y / 2.0f,
+                                    0f),
+                        new Vector3(_col.transform.position.x + _col.offset.x + _col.size.x,
+                                    _col.transform.position.y + _col.offset.y + _col.size.y / 2.0f,
+                                    0f)
+                        );
 
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(new Vector3(tmpCol.transform.position.x - _col.size.x,
+                                    tmpCol.transform.position.y + tmpCol.offset.y * tmpCol.transform.lossyScale.y,
+                                    0f),
+                        new Vector3(tmpCol.transform.position.x + _col.size.x,
+                                    tmpCol.transform.position.y + tmpCol.offset.y * tmpCol.transform.lossyScale.y,
+                                    0f)
+                        );
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(new Vector3(tmpCol.transform.position.x - _col.size.x,
+                                    tmpCol.transform.position.y - tmpCol.offset.y * tmpCol.transform.lossyScale.y - _col.size.y,
+                                    0f),
+                        new Vector3(tmpCol.transform.position.x + _col.offset.x,
+                                    tmpCol.transform.position.y - tmpCol.offset.y * tmpCol.transform.lossyScale.y - _col.size.y,
+                                    0f)
+                        );
         Gizmos.color = Color.magenta;
         Gizmos.DrawSphere(new Vector3(transform.position.x,
                                       targetColCenter,
