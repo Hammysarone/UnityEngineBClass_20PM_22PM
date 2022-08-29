@@ -17,7 +17,7 @@ public class EdgeDetector : MonoBehaviour
     public Vector2 grabPos
     {
         get => new Vector2(_rb.position.x + (_col.size.x * 0.5f * _col.gameObject.transform.lossyScale.x + 0.025f) * _machineManager.direction,
-                           _rb.position.y + _col.size.y * _col.gameObject.transform.lossyScale.y);
+                           _rb.position.y + _col.size.y * _col.gameObject.transform.lossyScale.y - 0.025f);
     }
 
     //public float topX, topY, bottomX, bottomY;

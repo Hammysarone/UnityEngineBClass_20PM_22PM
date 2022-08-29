@@ -14,11 +14,15 @@ public class StateMachineEdgeGrab : StateMachineBase
 
     private EdgeType _edgeType;
     private EdgeDetector _edgeDetector;
+    private GroundDetecter _groundDetector;
     private Rigidbody2D _rb;
     private float _edgeGrabAnimationTime;
     private float _edgeClimbAnimationTime;
     private float _animationTimer;
     private Vector2 _slerpCenter;
+    private Vector2 _grabPos;
+    private Vector2 _climbPos;
+    private float _slideSpeed = 10.0f;
 
     public StateMachineEdgeGrab(StateMachineManager.State machineState, 
                                 StateMachineManager manager, 
@@ -26,6 +30,7 @@ public class StateMachineEdgeGrab : StateMachineBase
         : base(machineState, manager, animationManager)
     {
         _edgeDetector = manager.GetComponent<EdgeDetector>();
+        _groundDetector = manager.GetComponent<GroundDetecter>();
         _rb = manager.GetComponent<Rigidbody2D>();
         _edgeGrabAnimationTime = animationManager.GetAnimationTime("EdgeGrab");
         _edgeClimbAnimationTime = animationManager.GetAnimationTime("EdgeClimb");
@@ -89,6 +94,8 @@ public class StateMachineEdgeGrab : StateMachineBase
                 break;
             case State.Prepare:
                 animationManager.Play("EdgeGrab");
+                _grabPos = _edgeDetector.grabPos;
+                _climbPos = _edgeDetector.climbPos;
                 _animationTimer = _edgeClimbAnimationTime;
                 state = State.OnAction;
                 break;
@@ -183,10 +190,14 @@ public class StateMachineEdgeGrab : StateMachineBase
                 }
                 else
                 {
-                    _rb.MovePosition((Vector2)Vector3.Slerp(_rb.position - _slerpCenter,
-                                                   _edgeDetector.climbPos - _slerpCenter,
-                                                   (_edgeClimbAnimationTime - _animationTimer) / _edgeClimbAnimationTime)
-                                                   + _slerpCenter);
+                    if (_rb.position.y < _grabPos.y)
+                    {
+                        _rb.position += Vector2.up * Time.deltaTime / _edgeClimbAnimationTime;
+                    }
+                    else if(Mathf.Abs(_rb.position.x - _climbPos.x) > 0.01f)
+                    {
+                        _rb.position += Vector2.right * manager.direction * Time.deltaTime / _edgeClimbAnimationTime;
+                    }
                     _animationTimer -= Time.deltaTime;
                 }
                 break;
@@ -207,6 +218,38 @@ public class StateMachineEdgeGrab : StateMachineBase
     private StateMachineManager.State EdgeSlideWorkFlow()
     {
         StateMachineManager.State nextState = managerState;
+
+        switch (state)
+        {
+            case State.Idle:
+                break;
+            case State.Prepare:
+                animationManager.Play("EdgeSlide");
+                state = State.OnAction;
+                break;
+            case State.Casting:
+                break;
+            case State.OnAction:
+                if(_groundDetector.isDetected)
+                {
+                    state = State.Finish;
+                }
+                else
+                {
+                    _rb.MovePosition(_rb.position + Vector2.down * _slideSpeed * Time.deltaTime);
+                }
+                break;
+            case State.Finish:
+                nextState = StateMachineManager.State.Idle;
+                break;
+            case State.Error:
+                break;
+            case State.WaitForErrorClear:
+                break;
+            default:
+                break;
+        }
+
         return nextState;
     }
 }
