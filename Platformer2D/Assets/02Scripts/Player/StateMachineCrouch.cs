@@ -65,7 +65,7 @@ public class StateMachineCrouch : StateMachineBase
             case State.Casting:
                 break;
             case State.OnAction:
-                if (Input.GetKeyUp(shortKey))
+                if (Input.GetKeyUp(KeyCode.DownArrow))
                     nextState = StateMachineManager.State.Idle;
                 break;
             case State.Finish:
