@@ -8,7 +8,7 @@ public class StateMachineLadder : StateMachineBase
     private GroundDetecter _groundDetector;
     private CapsuleCollider2D _col;
     private Rigidbody2D _rb;
-    private float _speed = 4.0f;
+    private float _speed = 2.5f;
     public StateMachineLadder(StateMachineManager.State machineState, 
                               StateMachineManager manager, 
                               AnimationManager animationManager) 
@@ -37,6 +37,7 @@ public class StateMachineLadder : StateMachineBase
     public override void ForceStop()
     {
         _rb.bodyType = RigidbodyType2D.Dynamic;
+        animationManager.speed = 1.0f;
         state = State.Idle;
     }
 
@@ -109,10 +110,13 @@ public class StateMachineLadder : StateMachineBase
                     else if (manager.h > 0)
                         manager.direction = 1;
 
-                    manager.move.x = manager.h;
-                    manager.ForceChangeState(StateMachineManager.State.Jump);
+                    if(manager.direction != 0)
+                    {
+                        manager.move.x = manager.h;
+                        manager.ForceChangeState(StateMachineManager.State.Jump);
+                        nextState = StateMachineManager.State.Jump;
+                    }
                 }
-
                 break;
             case State.Finish:
                 nextState = StateMachineManager.State.Idle;

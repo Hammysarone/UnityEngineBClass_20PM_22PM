@@ -28,8 +28,8 @@ public class LadderDetector : MonoBehaviour
     private void Update()
     {
         Collider2D ladderCol = Physics2D.OverlapCircle(new Vector2(_rb.position.x, _rb.position.y + _col.offset.y + (_col.size.y * 0.5f) * _detectHeightOffset), 
-                                            0.01f,
-                                            _ladderLayer);
+                                                       0.01f,
+                                                       _ladderLayer);
 
         if(ladderCol != null)
         {

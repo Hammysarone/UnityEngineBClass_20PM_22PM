@@ -82,11 +82,13 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private bool _aiAutoFollow;
     [SerializeField] private bool _aiIsAttackable;
     [SerializeField] private float _aiTargetDetectRange;
+    [SerializeField] private float _aiAttackRange;
     [SerializeField] private float _aiBehaviorTimeMin;
     [SerializeField] private float _aiBehaviorTimeMax;
     private float _aiBehaviorTimer;
 
     [Header("Movement")]
+    [SerializeField] private bool _moveEnable;
     [SerializeField] private float _moveSpeed;
     private Vector2 _move;
     // -1 : left, +1 : right
@@ -254,21 +256,27 @@ public class EnemyController : MonoBehaviour
                 Collider2D target = Physics2D.OverlapCircle(_rb.position, _aiTargetDetectRange, _targetLayer);
 
                 // Å¸°ÙÀÌ ¹üÀ§¸¦ ¹þ¾î³µÀ¸¸é
-                if(target == null)
+                if (target == null)
                 {
                     _aiState = AIState.DecideRandomBehavior;
                 }
                 // Å¸°ÙÀÌ ¹üÀ§ ³»¿¡ ÀÖÀ¸¸é
                 else
                 {
-                    if(target.transform.position.x > _rb.position.x + _col.size.x)
+                    if (target.transform.position.x > _rb.position.x + _col.size.x)
                     {
                         _move.x = 1.0f;
                     }
-                    else if(target.transform.position.x < _rb.position.x - _col.size.x)
+                    else if (target.transform.position.x < _rb.position.x - _col.size.x)
                     {
                         _move.x = -1.0f;
                     }
+                }
+
+                if(_aiIsAttackable &&
+                   Vector2.Distance(target.transform.position, _rb.position) < _aiAttackRange)
+                {
+                    // todo -> change state to attack
                 }
                 break;
             case AIState.AttackTarget:
