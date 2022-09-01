@@ -25,7 +25,14 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Slider _hpBar;
     [SerializeField] private int _hpMax;
 
-    [SerializeField] private int damage;
+    [SerializeField] private int _damage;
+    public int damage
+    {
+        get
+        {
+            return _damage;
+        }
+    }
 
     [SerializeField] private LayerMask _targetLayer;
     private EnemyController _controller;
@@ -59,7 +66,7 @@ public class Enemy : MonoBehaviour
                 {
                     if(player.invincible == false)
                     {
-                        player.Hurt(damage);
+                        player.Hurt(_damage);
                         go.GetComponent<StateMachineManager>().KnockBack();
                     }
                 }

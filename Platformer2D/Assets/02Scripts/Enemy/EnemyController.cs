@@ -119,11 +119,12 @@ public class EnemyController : MonoBehaviour
     private bool _isMovable = true;
     private bool _isDirectionChangable = true;
 
-    [SerializeField] private LayerMask _targetLayer;
+    [SerializeField] protected LayerMask _targetLayer;
 
     private Animator _animator;
-    private Rigidbody2D _rb;
+    protected Rigidbody2D _rb;
     private CapsuleCollider2D _col;
+    protected Enemy _enemySelf;
 
     private float _animationTimer;
     private float _attackTime;
@@ -147,8 +148,16 @@ public class EnemyController : MonoBehaviour
 
     public void KnockBack(int knockBackDirection)
     {
+        if (_moveEnable == false)
+            return;
+
         _rb.velocity = Vector2.zero;
         _rb.AddForce(new Vector2(knockBackDirection * _knockBackForce.x, _knockBackForce.y), ForceMode2D.Impulse);
+    }
+
+    protected virtual void AttackBehavior()
+    {
+
     }
 
     private void Awake()
@@ -156,6 +165,7 @@ public class EnemyController : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _col = GetComponent<CapsuleCollider2D>();
         _animator = GetComponent<Animator>();
+        _enemySelf = GetComponent<Enemy>();
         _attackTime = GetAnimationTime("Attack");
         _hurtTime = GetAnimationTime("Hurt");
         _dieTime = GetAnimationTime("Die");
@@ -173,15 +183,18 @@ public class EnemyController : MonoBehaviour
                 direction = 1;
         }
 
-        if (_state != State.Hurt &&
-           _state != State.Die)
+        if(_moveEnable)
         {
-            if (_isMovable)
+            if (_state != State.Hurt &&
+                _state != State.Die)
             {
-                if (Mathf.Abs(_move.x) > 0.0f)
-                    ChangeState(State.Move);
-                else
-                    ChangeState(State.Idle);
+                if (_isMovable)
+                {
+                    if (Mathf.Abs(_move.x) > 0.0f)
+                        ChangeState(State.Move);
+                    else
+                        ChangeState(State.Idle);
+                }
             }
         }
 
@@ -190,6 +203,9 @@ public class EnemyController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (_moveEnable == false)
+            return;
+
         transform.position += new Vector3(_move.x * _moveSpeed, _move.y, 0.0f) * Time.fixedDeltaTime;
     }
 
@@ -201,14 +217,17 @@ public class EnemyController : MonoBehaviour
             return;
         }
 
-        if(_aiAutoFollow == true)
+        if(_aiState < AIState.FollowTarget)
         {
-            if (Physics2D.OverlapCircle(_rb.position, _aiTargetDetectRange, _targetLayer))
-                _aiState = AIState.FollowTarget;
-        }
-        else
-        {
-            // todo -> Check Player hit
+            if (_aiAutoFollow == true)
+            {
+                if (Physics2D.OverlapCircle(_rb.position, _aiTargetDetectRange, _targetLayer))
+                    _aiState = AIState.FollowTarget;
+            }
+            else
+            {
+                // todo -> Check Player hit
+            }
         }
 
         switch (_aiState)
@@ -263,23 +282,30 @@ public class EnemyController : MonoBehaviour
                 // 타겟이 범위 내에 있으면
                 else
                 {
+                    // 타겟 오른쪽
                     if (target.transform.position.x > _rb.position.x + _col.size.x)
                     {
                         _move.x = 1.0f;
                     }
+                    // 타겟 왼쪽
                     else if (target.transform.position.x < _rb.position.x - _col.size.x)
                     {
                         _move.x = -1.0f;
                     }
-                }
-
-                if(_aiIsAttackable &&
-                   Vector2.Distance(target.transform.position, _rb.position) < _aiAttackRange)
-                {
-                    // todo -> change state to attack
+                    // 타겟이 공격 반경 안에 있고 공격 가능하면
+                    if (_aiIsAttackable &&
+                       Vector2.Distance(target.transform.position, _rb.position) < _aiAttackRange)
+                    {
+                        ChangeState(State.Attack);
+                        _aiState = AIState.AttackTarget;
+                    }
                 }
                 break;
             case AIState.AttackTarget:
+                if(_state != State.Attack)
+                {
+                    _aiState = AIState.FollowTarget;
+                }
                 break;
             default:
                 break;
@@ -416,13 +442,24 @@ public class EnemyController : MonoBehaviour
                 _move.x = 0.0f;
                 _rb.velocity = Vector2.zero;
                 _animator.Play("Attack");
+                _animationTimer = _attackTime;
                 _attackState++;
                 break;
             case AttackState.Casting:
+                _attackState++;
                 break;
             case AttackState.OnAction:
+                if(_animationTimer < 0.0f)
+                {
+                    _attackState++;
+                }
+                else
+                {
+                    _animationTimer -= Time.deltaTime;
+                }
                 break;
             case AttackState.Finish:
+                ChangeState(State.Idle);
                 break;
             default:
                 break;
@@ -508,9 +545,12 @@ public class EnemyController : MonoBehaviour
         return -1.0f;
     }
 
-    private void OnDrawGizmosSelected()
+    protected virtual void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, _aiTargetDetectRange);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, _aiAttackRange);
     }
 }
