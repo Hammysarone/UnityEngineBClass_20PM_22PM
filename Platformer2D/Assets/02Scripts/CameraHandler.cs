@@ -15,7 +15,7 @@ public class CameraHandler : MonoBehaviour
     private float _boundingShapeXMax;
     private float _boundingShapeYMin;
     private float _boundingShapeYMax;
-    [SerializeField] private Transform _target;
+    private Transform _target;
 
 
     private void Awake()
@@ -28,6 +28,11 @@ public class CameraHandler : MonoBehaviour
         _boundingShapeYMax = _boundShape.transform.position.y + _boundShape.offset.y + _boundShape.size.y * 0.5f;
     }
 
+    private void Start()
+    {
+        _target = Player.instance.transform;
+    }
+
     private void LateUpdate()
     {
         Follow();
@@ -35,6 +40,9 @@ public class CameraHandler : MonoBehaviour
 
     private void Follow()
     {
+        if (_target == null)
+            return;
+
         Vector3 targetPos = new Vector3(_target.position.x, _target.position.y, _tr.position.z) + _offset;
         Vector3 smoothPos = Vector3.Lerp(_tr.position, targetPos, _smoothness * Time.deltaTime);
 

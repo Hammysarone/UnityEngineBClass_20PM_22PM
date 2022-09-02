@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    public static Player instance;
+
     public bool invincible { get; private set; }
     private Coroutine _invincibleCoroutine = null;
 
@@ -73,5 +75,11 @@ public class Player : MonoBehaviour
         _machineManager = GetComponent<StateMachineManager>();
         _col = GetComponent<CapsuleCollider2D>();
         hp = _hpMax;
+
+        if (instance != null)
+            Destroy(instance.gameObject);
+
+        instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 }

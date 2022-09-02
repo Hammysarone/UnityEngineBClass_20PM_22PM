@@ -30,12 +30,12 @@ TagManager:
   - EnemyProjectile
   - 
   - 
+  - Portal
   - 
   - 
   - 
   - 
-  - 
-  - 
+  - 3D
   - 
   m_SortingLayers:
   - name: Default
