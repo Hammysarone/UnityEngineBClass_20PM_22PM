@@ -4,11 +4,43 @@ using UnityEngine;
 
 public class Node : MonoBehaviour
 {
+    public bool IsTowerExist => _towerBuilt;
+    private Tower _towerBuilt;
     private Renderer _renderer;
-
     private Color _originalColor;
     [SerializeField] private Color _buildAvailableColor;
     [SerializeField] private Color _buildNotAvailableColor;
+
+    public void Clear()
+    {
+        if (_towerBuilt != null)
+            Destroy(_towerBuilt.gameObject);
+    }
+
+    public bool TryBuildTowerHere(string towerName)
+    {
+        bool isOK = false;
+
+        if(IsTowerExist)
+        {
+            Debug.Log("해당 위치에 타워를 건설할 수 없습니다.");
+            return false;
+        }
+
+        if(TowerAssets.instance.TryGetTower(towerName, out GameObject tower))
+        {
+            GameObject built = Instantiate(tower, 
+                        transform.position + Vector3.up * 0.5f, 
+                        Quaternion.identity, 
+                        transform);
+
+            _towerBuilt = built.GetComponent<Tower>();
+            _towerBuilt.node = this;
+            isOK = true;
+        }
+
+        return isOK;
+    }
 
     private void Awake()
     {
@@ -18,7 +50,11 @@ public class Node : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        _renderer.material.color = _buildAvailableColor;
+        if(IsTowerExist)
+            _renderer.material.color = _buildNotAvailableColor;
+        else
+            _renderer.material.color = _buildAvailableColor;
+
         NodeManager.mouseOnNode = this;
     }
 
