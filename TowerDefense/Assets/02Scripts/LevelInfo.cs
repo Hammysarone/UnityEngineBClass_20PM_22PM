@@ -6,5 +6,5 @@ using UnityEngine;
 public class LevelInfo : ScriptableObject
 {
     public int lifeInit;
-    public int moenyInit;
+    public int moneyInit;
 }

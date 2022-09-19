@@ -15,11 +15,13 @@ public class Node : MonoBehaviour
     {
         if (_towerBuilt != null)
             Destroy(_towerBuilt.gameObject);
+        _towerBuilt = null;
     }
 
-    public bool TryBuildTowerHere(string towerName)
+    public bool TryBuildTowerHere(string towerName, out Tower towerBuilt)
     {
         bool isOK = false;
+        towerBuilt = null;
 
         if(IsTowerExist)
         {
@@ -36,6 +38,7 @@ public class Node : MonoBehaviour
 
             _towerBuilt = built.GetComponent<Tower>();
             _towerBuilt.node = this;
+            towerBuilt = _towerBuilt;
             isOK = true;
         }
 

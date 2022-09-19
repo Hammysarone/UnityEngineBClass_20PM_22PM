@@ -14,7 +14,7 @@ public class TowerHandler : MonoBehaviour, IPointerClickHandler
     private RaycastHit _hit;
     [SerializeField] private LayerMask _nodeLayer;
 
-    public void SetUpTower(TowerInfo towerInfo)
+    public void SetTower(TowerInfo towerInfo)
     {
         _selectedTowerInfo = towerInfo;
         gameObject.SetActive(true);
@@ -104,9 +104,9 @@ public class TowerHandler : MonoBehaviour, IPointerClickHandler
             return;
         }
 
-        if (_hit.collider.GetComponent<Node>().TryBuildTowerHere(_selectedTowerInfo.name))
+        if (_hit.collider.GetComponent<Node>().TryBuildTowerHere(_selectedTowerInfo.name, out Tower towerBuilt))
         {
-            Debug.Log($"타워 건설 완료 {_selectedTowerInfo.name}");
+            Debug.Log($"타워 건설 완료 {_selectedTowerInfo.name}, 노드 위치 : {towerBuilt.node.name}");
             Player.instance.money -= _selectedTowerInfo.buildPrice; // 돈 차감
         }
     }

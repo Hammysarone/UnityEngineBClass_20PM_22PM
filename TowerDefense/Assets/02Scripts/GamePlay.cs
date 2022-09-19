@@ -37,7 +37,7 @@ public class GamePlay : MonoBehaviour
     IEnumerator E_Init()
     {
         yield return new WaitUntil(() => Player.instance);
-        Player.instance.SetUp(levelInfo.lifeInit, levelInfo.moenyInit);
+        Player.instance.SetUp(levelInfo.lifeInit, levelInfo.moneyInit);
 
         StartLevel();
     }
