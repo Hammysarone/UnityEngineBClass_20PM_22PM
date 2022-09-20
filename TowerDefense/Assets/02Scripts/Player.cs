@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
         set
         {
             _life = value;
-            //OnLifeChanged(_life);
+            OnLifeChanged(_life);
         }
     }
 
