@@ -23,12 +23,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1869201558831147675}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.95, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.0012022133, y: 0.1569063, z: 0.9935055}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1869201559823892428}
-  m_RootOrder: 2
+  m_Father: {fileID: 1869201558931647714}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1869201559823892431
 GameObject:
@@ -39,8 +39,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1869201559823892428}
-  - component: {fileID: 1869201559823892429}
   - component: {fileID: 6296152190482582557}
+  - component: {fileID: -3962686081929177693}
   m_Layer: 12
   m_Name: MachineGun1
   m_TagString: Untagged
@@ -61,31 +61,9 @@ Transform:
   m_Children:
   - {fileID: 1869201559276274320}
   - {fileID: 1869201558931647714}
-  - {fileID: 1869201558831147672}
-  - {fileID: 856756980764139683}
-  - {fileID: 1081463422686376376}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1869201559823892429
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1869201559823892431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 393da70a4252a3646a513dbf4aa1f200, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  info: {fileID: 11400000, guid: 120a30c3bb6ef8247adbf79052f4ebf5, type: 2}
-  node: {fileID: 0}
-  rotatePoint: {fileID: 1869201558931647714}
-  detectRange: 2.5
-  _targetLayer:
-    serializedVersion: 2
-    m_Bits: 32768
 --- !u!135 &6296152190482582557
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -99,6 +77,32 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.8
   m_Center: {x: 0, y: 0.8, z: 0}
+--- !u!114 &-3962686081929177693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1869201559823892431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35b814c81ac79514c90dd873eae48b65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  info: {fileID: 11400000, guid: 120a30c3bb6ef8247adbf79052f4ebf5, type: 2}
+  node: {fileID: 0}
+  rotatePoint: {fileID: 1869201558931647714}
+  detectRange: 2.5
+  _targetLayer:
+    serializedVersion: 2
+    m_Bits: 32768
+  _bulletPrefab: {fileID: 3227169492214311691, guid: b9118241bd69c7541b75adb332b45754, type: 3}
+  _firePoints:
+  - {fileID: 1869201558831147672}
+  - {fileID: 856756980764139683}
+  - {fileID: 1081463422686376376}
+  _damage: 10
+  _reloadTime: 2
 --- !u!1 &5569007493704634420
 GameObject:
   m_ObjectHideFlags: 0
@@ -122,12 +126,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5569007493704634420}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.95, z: 0.6}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.0012022133, y: 0.1569063, z: 0.5935055}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1869201559823892428}
-  m_RootOrder: 4
+  m_Father: {fileID: 1869201558931647714}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8111222443036341647
 GameObject:
@@ -152,12 +156,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8111222443036341647}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.95, z: 0.8}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.0012022133, y: 0.1569063, z: 0.7935055}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1869201559823892428}
-  m_RootOrder: 3
+  m_Father: {fileID: 1869201558931647714}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1869201558931781218
 PrefabInstance:

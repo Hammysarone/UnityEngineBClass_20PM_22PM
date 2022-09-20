@@ -10,7 +10,7 @@ public class Tower : MonoBehaviour
     protected Transform tr;
     [SerializeField] private Transform rotatePoint;
     [SerializeField] protected float detectRange;
-    [SerializeField] private LayerMask _targetLayer;
+    [SerializeField] protected LayerMask _targetLayer;
     protected Transform target;
 
     private void Awake()
@@ -18,7 +18,7 @@ public class Tower : MonoBehaviour
         tr = GetComponent<Transform>();
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         Collider[] cols = Physics.OverlapSphere(tr.position, detectRange, _targetLayer);
 

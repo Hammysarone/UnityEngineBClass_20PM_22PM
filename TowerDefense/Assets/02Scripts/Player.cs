@@ -6,6 +6,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public static Player instance;
+
     private int _life;
     public int life
     {
@@ -16,9 +17,10 @@ public class Player : MonoBehaviour
         set
         {
             _life = value;
-            OnLifeChanged(_life);
+            //OnLifeChanged(_life);
         }
     }
+
     private int _money;
     public int money
     {
