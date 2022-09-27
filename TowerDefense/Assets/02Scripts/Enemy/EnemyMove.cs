@@ -26,6 +26,7 @@ public class EnemyMove : MonoBehaviour
         _pathFinder = GetComponent<Pathfinder>();
         _originY = _tr.position.y;
     }
+
     private void Start()
     {
         _wayPoints = _pathFinder.FindOptimizedPath(_start, _end);
@@ -35,14 +36,13 @@ public class EnemyMove : MonoBehaviour
     private void FixedUpdate()
     {
         _targetPos = new Vector3(_nextWayPoint.position.x,
-                                 _originY, 
+                                 _originY,
                                  _nextWayPoint.position.z);
-
         _dir = (_targetPos - _tr.position).normalized;
 
-        if(Vector3.Distance(_targetPos, _tr.position) < _posTolerance)
+        if (Vector3.Distance(_targetPos, _tr.position) < _posTolerance)
         {
-            if(TryGetNextPoint(_wayPointIndex, out _nextWayPoint))
+            if (TryGetNextPoint(_wayPointIndex, out _nextWayPoint))
             {
                 _wayPointIndex++;
             }
@@ -62,13 +62,13 @@ public class EnemyMove : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public bool TryGetNextPoint(int currentPointIndex, out Transform nextPoint)
+    public bool TryGetNextPoint(int curretPointIndex, out Transform nextPoint)
     {
         nextPoint = null;
 
-        if (currentPointIndex < _wayPoints.Count - 1)
+        if (curretPointIndex < _wayPoints.Count - 1)
         {
-            nextPoint = _wayPoints[currentPointIndex + 1];
+            nextPoint = _wayPoints[curretPointIndex + 1];
         }
 
         return nextPoint;

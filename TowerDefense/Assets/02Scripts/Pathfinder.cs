@@ -127,20 +127,21 @@ public class Pathfinder : MonoBehaviour
 
         if (found)
         {
-            //List<List<Transform>> nodePathList = new List<List<Transform>>();
-
-            //for (int i = 0; i < _pathList.Count; i++)
-            //{
-            //    string pathString = "";
-            //    nodePathList.Add(new List<Transform>());
-            //    for (int j = 0; j < _pathList[i].Count; j++)
-            //    {
-            //        nodePathList[i].Add(GetNode(_pathList[i][j]));
-            //        pathString += $"-> {nodePathList[i][j].name}";
-            //    }
-            //    Debug.Log($"[Pathfinder] : ÃÖ´Ü°æ·Î Å½»ö µÊ. {pathString}");
-            //}
-            return _pathList.OrderBy(path => path.Count).First(); ;
+            /* µð¹ö±ë¿ë
+            List<List<Transform>> nodePathList = new List<List<Transform>>();
+            for (int i = 0; i < _pathList.Count; i++)
+            {
+                string pathString = "";
+                nodePathList.Add(new List<Transform>());
+                for (int j = 0; j < _pathList[i].Count; j++)
+                {
+                    nodePathList[i].Add(GetNode(_pathList[i][j]));
+                    pathString += $"-> {nodePathList[i][j].name}";
+                }
+                Debug.Log($"[Pathfinder] : ÃÖ´Ü°æ·Î Å½»ö µÊ. {pathString}");
+            }
+            */
+            return _pathList.OrderBy(path => path.Count).First();
         }
         return null;
     }
@@ -214,6 +215,7 @@ public class Pathfinder : MonoBehaviour
     {
         bool isFound = false;
         _visited[start.y, start.x] = true;
+        Debug.Log($"DFS ing... {start.x}, {start.y}");
 
         Coord next;
         for (int i = 0; i < _direction.GetLength(1); i++)
@@ -244,7 +246,7 @@ public class Pathfinder : MonoBehaviour
             else
             {
                 isFound = DFSLoop(next, end);
-                if(isFound)
+                if (isFound)
                 {
                     _tmpPathForDFS.Add(GetNode(next));
                     break;
@@ -276,7 +278,6 @@ public class Pathfinder : MonoBehaviour
             index = parentPairs.FindLastIndex(pair => pair.Value == parentPairs[index].Key);
         }
         path.Add(GetNode(start));
-
         path.Reverse();
 
         return path;
@@ -310,6 +311,9 @@ public class Pathfinder : MonoBehaviour
 
     private Transform GetNode(Coord coord)
     {
+        if (_map[coord.y, coord.x].node == null)
+            Debug.LogError($"Failed to get node {coord.x},{coord.y}");
+
         return _map[coord.y, coord.x].node;
     }
 
