@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,11 +19,21 @@ public class Enemy : MonoBehaviour
                 value = 0;
             _hp = value;
             _hpBar.value = (float)_hp / hpMax;
+
+            if (_hp <= 0)
+                Die();
         }
     }
 
     public int hpMax;
     [SerializeField] private Slider _hpBar;
+    public event Action OnDie;
+
+    public void Die()
+    {
+        OnDie();
+        Destroy(gameObject);
+    }
 
     private void Awake()
     {
