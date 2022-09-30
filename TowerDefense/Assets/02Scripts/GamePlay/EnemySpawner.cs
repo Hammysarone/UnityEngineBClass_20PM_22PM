@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -12,7 +13,26 @@ public class EnemySpawner : MonoBehaviour
     private List<List<GameObject>> enemiesSpawnedList = new List<List<GameObject>>();
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private Transform[] goalPoints;
+    [SerializeField] private SkipButtonUI _skipButtonUIPrefab;
+    private SkipButtonUI[] _skipButtonsBuffer = new SkipButtonUI[10];
     public event Action<int> OnStageFinshed;
+    private bool _spawnFinishedTrigger;
+    private bool spawnFinishedTrigger
+    {
+        set
+        {
+            if(value && 
+               _spawnFinishedTrigger == false)
+            {
+                PopUpSkipButtons();
+            }
+            _spawnFinishedTrigger = value;
+        }
+        get
+        {
+            return _spawnFinishedTrigger;
+        }
+    }
 
     public void StartSpawn(StageInfo stageInfo)
     {
@@ -34,27 +54,38 @@ public class EnemySpawner : MonoBehaviour
         enemiesSpawnedList.Add(new List<GameObject>());
     }
 
+    public void DestroyAllSkipButtons()
+    {
+        for (int i = 0; i < _skipButtonsBuffer.Length; i++)
+        {
+            if (_skipButtonsBuffer[i] != null)
+                Destroy(_skipButtonsBuffer[i].gameObject);
+        }
+    }
+
     private void Update()
     {
         for (int i = stageList.Count - 1; i >= 0; i--)
         {
-            bool isSpawnFinished = true;
+            bool tmpSpawnFinished = true;
             for (int j = 0; j < stageList[i].enemySpawnDataList.Count; j++)
             {
-                if (delayTimersList[i][j] < 0)
+                if (spawnCountersList[i][j] > 0)
                 {
-                    if (timersList[i][j] < 0)
+                    tmpSpawnFinished = false;
+
+                    if (delayTimersList[i][j] < 0)
                     {
-                        if (spawnCountersList[i][j] > 0)
+                        if (timersList[i][j] < 0)
                         {
-                            GameObject go = Instantiate(stageList[i].enemySpawnDataList[j].poolElement.prefab, 
-                                                        spawnPoints[i].position,
-                                                        Quaternion.identity);
+                            GameObject go = Instantiate(stageList[i].enemySpawnDataList[j].poolElement.prefab,
+                            spawnPoints[stageList[i].enemySpawnDataList[j].spawnPointIndex].position,
+                            Quaternion.identity);
 
                             enemiesSpawnedList[i].Add(go);
 
                             int tmpId = stageList[i].id;
-                            go.GetComponent<Enemy>().OnDie += () => 
+                            go.GetComponent<Enemy>().OnDie += () =>
                             {
                                 int tmpIdx = stageList.FindIndex(stageInfo => stageInfo.id == tmpId);
 
@@ -74,23 +105,50 @@ public class EnemySpawner : MonoBehaviour
 
                             timersList[i][j] = stageList[i].enemySpawnDataList[j].term;
                             spawnCountersList[i][j]--;
-                            isSpawnFinished = false;
+                        }
+                        else
+                        {
+                            timersList[i][j] -= Time.deltaTime;
                         }
                     }
                     else
                     {
-                        timersList[i][j] -= Time.deltaTime;
+                        delayTimersList[i][j] -= Time.deltaTime;
                     }
                 }
-                else
-                {
-                    delayTimersList[i][j] -= Time.deltaTime;
-                }
             }
-            if(isSpawnFinished)
+            if(stageList[i].id == GamePlay.instance.currentStageId)
             {
-
+                spawnFinishedTrigger = tmpSpawnFinished;
             }
+        }
+    }
+
+    private void PopUpSkipButtons()
+    {
+        LevelInfo levelInfo = GamePlay.instance.levelInfo;
+        int currentStage = GamePlay.instance.currentStage;
+        // 다음 스테이지 없으면 리턴
+        if (currentStage >= levelInfo.stagesInfo.Count - 1)
+            return;
+
+        HashSet<int> spawnPointIndexSet = new HashSet<int>();
+        foreach (var enemySpawnData in levelInfo.stagesInfo[currentStage + 1].enemySpawnDataList)
+        {
+            spawnPointIndexSet.Add(enemySpawnData.spawnPointIndex);
+        }
+
+        foreach (var index in spawnPointIndexSet)
+        {
+            _skipButtonsBuffer[index] = Instantiate(_skipButtonUIPrefab,
+                                                    spawnPoints[index].position + Vector3.up,
+                                                    _skipButtonUIPrefab.transform.rotation);
+
+            _skipButtonsBuffer[index].AddButtonOnClickListner(() =>
+            {
+                GamePlay.instance.NextStage();
+                DestroyAllSkipButtons();
+            });
         }
     }
 }
