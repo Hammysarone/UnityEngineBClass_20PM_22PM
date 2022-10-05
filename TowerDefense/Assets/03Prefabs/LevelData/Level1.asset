@@ -19,6 +19,7 @@ MonoBehaviour:
   - id: 0
     enemySpawnDataList:
     - poolElement:
+        name: TestEnemy01
         prefab: {fileID: 2268211658807783353, guid: 3d75b2cc222ac0140b7f7d1fa428a698, type: 3}
         num: 5
       spawnPointIndex: 0
@@ -26,6 +27,7 @@ MonoBehaviour:
       term: 1
       delay: 0
     - poolElement:
+        name: TestEnemy02
         prefab: {fileID: 8686849370233167898, guid: 0d441ee14ed520944a52abb24ca6ed36, type: 3}
         num: 3
       spawnPointIndex: 0
@@ -35,6 +37,7 @@ MonoBehaviour:
   - id: 1
     enemySpawnDataList:
     - poolElement:
+        name: TestEnemy01
         prefab: {fileID: 2268211658807783353, guid: 3d75b2cc222ac0140b7f7d1fa428a698, type: 3}
         num: 6
       spawnPointIndex: 0
@@ -42,6 +45,7 @@ MonoBehaviour:
       term: 1
       delay: 0
     - poolElement:
+        name: TestEnemy02
         prefab: {fileID: 8686849370233167898, guid: 0d441ee14ed520944a52abb24ca6ed36, type: 3}
         num: 4
       spawnPointIndex: 0
@@ -51,6 +55,7 @@ MonoBehaviour:
   - id: 2
     enemySpawnDataList:
     - poolElement:
+        name: TestEnemy01
         prefab: {fileID: 2268211658807783353, guid: 3d75b2cc222ac0140b7f7d1fa428a698, type: 3}
         num: 7
       spawnPointIndex: 0
@@ -58,6 +63,7 @@ MonoBehaviour:
       term: 1
       delay: 0
     - poolElement:
+        name: TestEnemy02
         prefab: {fileID: 8686849370233167898, guid: 0d441ee14ed520944a52abb24ca6ed36, type: 3}
         num: 5
       spawnPointIndex: 0
