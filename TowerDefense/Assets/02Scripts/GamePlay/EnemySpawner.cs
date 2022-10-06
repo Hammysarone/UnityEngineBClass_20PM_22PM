@@ -16,7 +16,9 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private SkipButtonUI _skipButtonUIPrefab;
     private SkipButtonUI[] _skipButtonsBuffer = new SkipButtonUI[10];
     public event Action<int> OnStageFinshed;
+    private Action EnemyDieAction;
     private bool _spawnFinishedTrigger;
+
     private bool spawnFinishedTrigger
     {
         set
@@ -93,34 +95,16 @@ public class EnemySpawner : MonoBehaviour
                     {
                         if (timersList[i][j] < 0)
                         {
-                            //GameObject go = Instantiate(stageList[i].enemySpawnDataList[j].poolElement.prefab,
-                            //                            spawnPoints[stageList[i].enemySpawnDataList[j].spawnPointIndex].position,
-                            //                            Quaternion.identity);
-
                             GameObject go = ObjectPool.instance.Spawn(stageList[i].enemySpawnDataList[j].poolElement.name,
                                                                      spawnPoints[stageList[i].enemySpawnDataList[j].spawnPointIndex].position);
 
                             enemiesSpawnedList[i].Add(go);
 
                             int tmpId = stageList[i].id;
-                            go.GetComponent<Enemy>().OnDie += () =>
-                            {
-                                int tmpIdx = stageList.FindIndex(stageInfo => stageInfo.id == tmpId);
+                            go.GetComponent<Enemy>().OnDie -= EnemyDieAction;
+                            EnemyDieAction += () => OnEnemyDie(go, tmpId);
+                            go.GetComponent<Enemy>().OnDie += EnemyDieAction;
 
-                                if(tmpIdx >= 0)
-                                {
-                                    enemiesSpawnedList[tmpIdx].Remove(go);
-                                    if (enemiesSpawnedList[tmpIdx].Count == 0)
-                                    {
-                                        OnStageFinshed(tmpId);
-                                        stageList.RemoveAt(tmpIdx);
-                                        timersList.RemoveAt(tmpIdx);
-                                        delayTimersList.RemoveAt(tmpIdx);
-                                        spawnCountersList.RemoveAt(tmpIdx);
-                                    }
-                                }
-
-                            };
                             go.GetComponent<EnemyMove>().SetStartEnd(spawnPoints[stageList[i].enemySpawnDataList[j].spawnPointIndex],
                                                                      goalPoints[stageList[i].enemySpawnDataList[j].goalPointIndex]);
 
@@ -170,6 +154,24 @@ public class EnemySpawner : MonoBehaviour
                 GamePlay.instance.NextStage();
                 DestroyAllSkipButtons();
             });
+        }
+    }
+
+    private void OnEnemyDie(GameObject go, int id)
+    {
+        int tmpIdx = stageList.FindIndex(stageInfo => stageInfo.id == id);
+
+        if (tmpIdx >= 0)
+        {
+            enemiesSpawnedList[tmpIdx].Remove(go);
+            if (enemiesSpawnedList[tmpIdx].Count == 0)
+            {
+                OnStageFinshed(id);
+                stageList.RemoveAt(tmpIdx);
+                timersList.RemoveAt(tmpIdx);
+                delayTimersList.RemoveAt(tmpIdx);
+                spawnCountersList.RemoveAt(tmpIdx);
+            }
         }
     }
 }
