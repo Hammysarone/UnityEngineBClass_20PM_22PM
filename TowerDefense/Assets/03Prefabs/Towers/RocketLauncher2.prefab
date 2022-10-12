@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8477092068871976351}
   - component: {fileID: 7564209902439577950}
+  - component: {fileID: -8204308896302137548}
   m_Layer: 12
   m_Name: RocketLauncher2
   m_TagString: Untagged
@@ -61,6 +62,19 @@ MonoBehaviour:
   - {fileID: 8257896870798158365}
   _damage: 25
   _reloadTime: 1.8
+--- !u!135 &-8204308896302137548
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2619093439592992449}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.8
+  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!1 &7237749549609936553
 GameObject:
   m_ObjectHideFlags: 0

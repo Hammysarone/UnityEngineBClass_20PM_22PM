@@ -5,7 +5,7 @@ using UnityEngine;
 public class ProjectileRocket : Projectile
 {
     [SerializeField] private ParticleSystem _explosionEffect;
-    private float _explosionRange;
+    [SerializeField] private float _explosionRange = 2.0f;
 
     protected override void OnTriggerEnter(Collider other)
     {
@@ -19,13 +19,14 @@ public class ProjectileRocket : Projectile
                 if (hits[i].transform.TryGetComponent(out Enemy enemy))
                 {
                     enemy.hp -= (int)((_explosionRange - Vector3.Distance(transform.position, enemy.transform.position)) * damage);
-                    GameObject effect = ObjectPool.instance.Spawn("RocketExplosionEffect",
-                                                                  tr.position,
-                                                                  Quaternion.LookRotation(tr.position - target.position));
-                    ObjectPool.instance.Return(effect, _explosionEffect.main.duration + _explosionEffect.main.startLifetime.constantMax);
-                    ObjectPool.instance.Return(this.gameObject);
+                    BuffManager.instance.ActiveBuff<Enemy>(enemy, new BuffBurning<Enemy>(damage / 5, 1.0f), 5.0f);
                 }
             }
+            GameObject effect = ObjectPool.instance.Spawn("RocketExplosionEffect",
+                                              tr.position,
+                                              Quaternion.LookRotation(tr.position - other.transform.position));
+            ObjectPool.instance.Return(effect, _explosionEffect.main.duration + _explosionEffect.main.startLifetime.constantMax);
+            ObjectPool.instance.Return(this.gameObject);
         }
     }
 }
