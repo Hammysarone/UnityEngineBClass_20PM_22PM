@@ -6,7 +6,7 @@ using UnityEngine;
 public class MapUnit : MonoBehaviour
 {
     public float length;
-    public event Action? OnReachedToEnd;
+    public event Action OnReachedToEnd;
 
     private void FixedUpdate()
     {
