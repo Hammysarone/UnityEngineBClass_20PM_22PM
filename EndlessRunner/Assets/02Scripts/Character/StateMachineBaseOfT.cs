@@ -10,10 +10,16 @@ public class StateMachineBase<T>where T : Enum
     public T currentType;
     public IState<T> current;
     protected Dictionary<T, IState<T>> states;
+    protected Dictionary<T, T> canExecuteConditionMasks;
+    protected Dictionary<T, T> transitionPairs;
 
-    public StateMachineBase(GameObject owner)
+    public StateMachineBase(GameObject owner, 
+                            Dictionary<T, T> canExecuteConditionMasks, 
+                            Dictionary<T, T> transitionPairs)
     {
         this.owner = owner;
+        this.canExecuteConditionMasks = canExecuteConditionMasks;
+        this.transitionPairs = transitionPairs;
         InitStates();
     }
 
@@ -39,18 +45,26 @@ public class StateMachineBase<T>where T : Enum
 
     private void InitStates()
     {
+        states = new Dictionary<T, IState<T>>();
         Array values = Enum.GetValues(typeof(T));
         foreach (T value in values)
         {
             string typeName = "State" + value.ToString();
             Assembly stateTypeAssembly = typeof(T).Assembly;
-            Type stateType = Type.GetType($"{typeName}`1[{typeof(T)}{stateTypeAssembly}]");
+            Type stateType = Type.GetType($"{typeName}`1[[{typeof(T)}{stateTypeAssembly}]]");
             ConstructorInfo constructorInfo
-                = stateType.GetConstructor(new Type[] {this.GetType(), typeof(T)});
+                = stateType.GetConstructor(new Type[] {typeof(StateMachineBase<T>), 
+                                                       typeof(T), 
+                                                       typeof(T), 
+                                                       typeof(T) });
 
             if(constructorInfo != null)
             {
-                constructorInfo.Invoke(new object[] { this, value });
+                IState<T> state = constructorInfo.Invoke(new object[] { this, 
+                                                                        value,
+                                                                        canExecuteConditionMasks[value],
+                                                                        transitionPairs[value]}) as IState<T>;
+                states.Add(value, state);
             }
         }
         isReady = true;

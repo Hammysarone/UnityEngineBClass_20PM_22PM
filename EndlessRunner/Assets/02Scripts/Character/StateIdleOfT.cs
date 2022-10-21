@@ -1,8 +1,8 @@
 ﻿using System;
 public class StateIdle<T> : StateBase<T> where T : Enum
 {
-    public StateIdle(StateMachineBase<T> stateMachine, T machineState) 
-        : base(stateMachine, machineState)
+    public StateIdle(StateMachineBase<T> stateMachine, T machineState, T canExecuteConditionMask, T nextTarget) 
+        : base(stateMachine, machineState, canExecuteConditionMask, nextTarget)
     {
     }
 
