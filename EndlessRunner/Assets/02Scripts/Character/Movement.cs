@@ -19,6 +19,10 @@ public class Movement : MonoBehaviour
     {
         set
         {
+            if (isMovable == false &&
+                isMoving == true)
+                return;
+
             if (value && 
                 _current != Pos.Left)
             {
@@ -37,6 +41,10 @@ public class Movement : MonoBehaviour
     {
         set
         {
+            if (isMovable == false &&
+                isMoving == true)
+                return;
+
             if (value && 
                 _current != Pos.Right)
             {
@@ -66,14 +74,7 @@ public class Movement : MonoBehaviour
 
     private void Update()
     {
-        if(isMovable &&
-           isMoving == false)
-        {
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-                doMoveLeft = true;
-            else if (Input.GetKeyDown(KeyCode.RightArrow))
-                doMoveRight = true;
-        }    
+
     }
 
     private void FixedUpdate()
