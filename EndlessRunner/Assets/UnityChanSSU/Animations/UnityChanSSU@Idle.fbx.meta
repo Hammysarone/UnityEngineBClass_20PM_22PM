@@ -23,9 +23,23 @@ ModelImporter:
     removeConstantScaleCurves: 1
     motionNodeName: 
     rigImportErrors: 
-    rigImportWarnings: 
+    rigImportWarnings: "Avatar Rig Configuration mis-match. Inbetween bone rotation
+      in configuration does not match rotation in animation file:\n\t'CH_Chest' :
+      rotation error = 1.965651 deg\n\t'CH_UpperChest' : rotation error = 1.957134
+      deg\n\t'CH_Shou_R' : rotation error = 20.316179 deg\n\t'CH_Uppe_R' : rotation
+      error = 62.884895 deg\n\t'CH_Shou_L' : rotation error = 20.579618 deg\n\t'CH_Uppe_L'
+      : rotation error = 66.841293 deg\n\t'CH_FingerMid1_L' : rotation error = 3.150317
+      deg\n"
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: "\nClip 'mixamo.com' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'CH_Chest' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n\t'CH_UpperChest' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\t'CH_Shou_R'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'CH_Uppe_R'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'CH_Shou_L'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'CH_Uppe_L'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
